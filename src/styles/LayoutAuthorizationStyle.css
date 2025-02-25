@@ -1,0 +1,10 @@
+.background-img {
+  background-image: url("https://wallpapercave.com/wp/wp3598835.jpg");
+}
+.container-form {
+  width: 600px;
+  min-height: 800px;
+  background-color: #ffffffe5;
+  padding: 40px;
+  border-radius: 20px;
+}
