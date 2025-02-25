@@ -1,4 +1,4 @@
 import AdminLayout from "./AdminLayout";
 import ClientLayout from "./ClientLayout";
-
-export { AdminLayout, ClientLayout };
+import AuthLayout from "./AuthLayout"
+export { AdminLayout, ClientLayout , AuthLayout };

@@ -1,11 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
-import { AdminLayout, ClientLayout } from "./layout";
-import { admin, client } from "./pages";
-import LoginPage from "./pages/LoginPage";
-import SignupPage from "./pages/SignupPage";
+import { AdminLayout, ClientLayout, AuthLayout } from "./layout";
+import { admin, client, auth } from "./pages";
+import SignupPage from "./pages/auth/sign_up/SignUpPage";
+import LoginPage from "./pages/auth/login/LoginPage";
 
 const { DashboardPage } = admin;
 const { HomePage } = client;
+const {  } = auth;
 
 const router = createBrowserRouter([
   {
@@ -13,7 +14,7 @@ const router = createBrowserRouter([
     element: <ClientLayout />,
     children: [
       { index: true, element: <HomePage /> },
-      { path: "/test", element: <SignupPage /> },
+      
     ],
   },
   {
@@ -22,6 +23,14 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <LoginPage /> },
       { path: "/admin/dashboard", element: <DashboardPage /> },
+    ],
+  },
+  {
+    path: "/auth",
+    element: <AuthLayout />,
+    children: [
+      { index: true, element: <LoginPage /> },
+      { path: "/auth/signup", element: <SignupPage /> },
     ],
   },
 ]);

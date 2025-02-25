@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import "../styles/LayoutAuthorizationStyle.css";
-const LayoutAuthorization = () => {
+const AuthLayout = () => {
   return (
     <>
       <div className="h-screen w-screen bg-cover bg-center bg-no-repeat flex justify-center items-center background-img">
@@ -11,4 +11,4 @@ const LayoutAuthorization = () => {
     </>
   );
 };
-export default LayoutAuthorization;
+export default AuthLayout;
