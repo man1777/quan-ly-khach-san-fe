@@ -1,3 +1,4 @@
+import { ManagementRooms } from "./admin";
 import DashboardPage from "./admin/dashboard/DashboardPage";
 import LoginPage from "./auth/login/LoginPage";
 import RememberPasswordPage from "./auth/remember_password/RememberPasswordPage";
@@ -6,6 +7,7 @@ import HomePage from "./client/home/HomePage";
 
 const admin = {
   DashboardPage,
+  ManagementRooms,
 };
 
 const client = {
@@ -14,6 +16,6 @@ const client = {
 const auth = {
   LoginPage,
   RememberPasswordPage,
-  SignupPage
+  SignupPage,
 };
-export { admin, client,auth };
+export { admin, client, auth };

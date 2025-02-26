@@ -2,9 +2,13 @@
   background-image: url("https://wallpapercave.com/wp/wp3598835.jpg");
 }
 .container-form {
-  width: 600px;
+  width: 500px;
   min-height: 800px;
   background-color: #ffffffe5;
-  padding: 40px;
+  padding: 60px;
   border-radius: 20px;
+}
+
+.unable-align-center .ant-form-item-control-input {
+  align-items: baseline;
 }

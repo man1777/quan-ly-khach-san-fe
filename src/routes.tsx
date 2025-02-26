@@ -1,27 +1,22 @@
 import { createBrowserRouter } from "react-router-dom";
 import { AdminLayout, ClientLayout, AuthLayout } from "./layout";
 import { admin, client, auth } from "./pages";
-import SignupPage from "./pages/auth/sign_up/SignUpPage";
-import LoginPage from "./pages/auth/login/LoginPage";
 
-const { DashboardPage } = admin;
+const { DashboardPage, ManagementRooms } = admin;
 const { HomePage } = client;
-const {  } = auth;
+const { LoginPage, SignupPage } = auth;
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <ClientLayout />,
-    children: [
-      { index: true, element: <HomePage /> },
-      
-    ],
+    children: [{ index: true, element: <HomePage /> }],
   },
   {
     path: "/admin",
     element: <AdminLayout />,
     children: [
-      { index: true, element: <LoginPage /> },
+      { index: true, element: <ManagementRooms /> },
       { path: "/admin/dashboard", element: <DashboardPage /> },
     ],
   },
