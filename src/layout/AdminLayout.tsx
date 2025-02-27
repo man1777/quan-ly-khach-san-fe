@@ -55,7 +55,7 @@ const AdminLayout = () => {
     let className =
       "cursor-pointer hover:text-yellow-400 text-lg tracking-wide";
     if (isClicked) {
-      className += "text-yellow-400";
+      className += " text-yellow-400";
     }
     return className;
   };
@@ -73,12 +73,12 @@ const AdminLayout = () => {
   });
 
   return (
-    <div className="h-screen w-screen ">
+    <div>
       <div className="navbar flex justify-center items-center text-white gap-6">
         {listMenu}
       </div>
 
-      <div>
+      <div className="p-5">
         <Outlet />
       </div>
     </div>
