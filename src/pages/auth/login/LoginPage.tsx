@@ -1,5 +1,6 @@
-import { Button, Checkbox, Divider, Form, Input } from "antd";
-import { FC } from "react";
+import { Button, Form, Input, notification } from "antd";
+import axios from "axios";
+import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface formLogin {
@@ -10,12 +11,53 @@ interface formLogin {
 
 const LoginPage: FC = () => {
   const navigate = useNavigate();
+
+  const notiSuccess = () => {
+    notification.success({
+      message: "Đăng nhập thành công",
+      placement: "top",
+      showProgress: true,
+    });
+  };
+
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const baseUrl = import.meta.env.VITE_API_URL;
+
+  const signInApi = baseUrl + "/Auth/signin";
+
   const onFinish = (values: formLogin) => {
-    if (values.username === "admin" && values.password === "admin") {
-      navigate("/admin");
-    } else if (values.username === "client" && values.password === "client") {
-      navigate("/");
-    }
+    setErrorMessage("");
+    setIsLoading(true);
+    const params = {
+      email: values.username,
+      password: values.password,
+    };
+    axios
+      .post(signInApi, params)
+      .then((res) => {
+        if (res.status === 200) {
+          setTimeout(() => {
+            notiSuccess();
+          }, 200);
+          navigate("/");
+          return;
+        }
+        console.log("daa", res);
+      })
+      .catch((err) => {
+        setErrorMessage(err.response.data.message);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  const renderErrorMessage = () => {
+    if (errorMessage.length > 0)
+      return <i className="text-red-600 mt-5">{errorMessage}</i>;
   };
   return (
     <>
@@ -32,7 +74,7 @@ const LoginPage: FC = () => {
             name="username"
             rules={[{ required: true, message: "Please enter your username!" }]}
           >
-            <Input />
+            <Input placeholder="abc@gmail.com" />
           </Form.Item>
 
           <Form.Item
@@ -42,7 +84,8 @@ const LoginPage: FC = () => {
           >
             <Input.Password />
           </Form.Item>
-          <div className="flex justify-between">
+          <div className="mb-3">{renderErrorMessage()}</div>
+          {/* <div className="flex justify-between">
             <div className="unable-align-center">
               <Form.Item name="remember" valuePropName="checked" label={null}>
                 <Checkbox>Remember me?</Checkbox>
@@ -53,10 +96,9 @@ const LoginPage: FC = () => {
                 Forgot password?
               </a>
             </div>
-          </div>
+          </div> */}
           <Form.Item>
             <Button
-              type="primary"
               htmlType="submit"
               className="w-full"
               style={{
@@ -64,12 +106,15 @@ const LoginPage: FC = () => {
                 fontSize: "1rem",
                 fontWeight: "bold",
               }}
+              loading={isLoading}
+              variant="outlined"
+              color="primary"
             >
               SIGN IN
             </Button>
           </Form.Item>
         </Form>
-        <Divider>OR</Divider>
+        {/* <Divider>OR</Divider>
         <div className="flex flex-col items-center w-full ">
           <button className="w-full font-bold shadow-sm rounded-lg py-3 bg-green-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
             <div className="bg-white rounded-full">
@@ -94,10 +139,14 @@ const LoginPage: FC = () => {
             </div>
             <span className="ml-4">Sign In with Google</span>
           </button>
-        </div>
+        </div> */}
 
         <div className="absolute bottom-0 left-0 text-center w-full ">
-          <a href="#" className="text-blue-500">
+          <a
+            href="#"
+            className="text-blue-500"
+            onClick={() => navigate("/auth/signup")}
+          >
             Don't have an account? Let's create one!
           </a>
         </div>
