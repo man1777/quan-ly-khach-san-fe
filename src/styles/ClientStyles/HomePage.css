@@ -1,0 +1,16 @@
+.navbar {
+  background-color: white;
+}
+.font-navbar {
+  color: #707070;
+}
+
+.order-navbar {
+  min-height: 100px;
+}
+
+.footer {
+  background-color: #54b2b0;
+  color: #1c1c1c;
+  min-height: 450px;
+}

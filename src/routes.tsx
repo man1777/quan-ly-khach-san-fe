@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { AdminLayout, ClientLayout, AuthLayout } from "./layout";
 import { admin, client, auth } from "./pages";
+import GalleryPage from "./pages/client/Gallery/GalleryPage";
 
 const { DashboardPage, ManagementRooms } = admin;
 const { HomePage } = client;
@@ -10,7 +11,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <ClientLayout />,
-    children: [{ index: true, element: <HomePage /> }],
+    children: [
+      { index: true, element: <HomePage /> },
+      { path: "/gallery", element: <GalleryPage /> },
+    ],
   },
   {
     path: "/admin",
