@@ -80,7 +80,7 @@ const ModalSaveRoom = ({
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
       >
-        <Form name="formData" onFinish={handleOk} form={form} layout="vertical">
+        <Form name="formData" onFinish={handleOk} form={form} layout="vertical" >
           <Form.Item<ModalProps>
             label="Room type"
             name="RoomTypeId"
@@ -115,6 +115,7 @@ const ModalSaveRoom = ({
             rules={[{ required: true, message: "Please choose Status!" }]}
           >
             <Select
+            defaultValue="Ready"
               options={[
                 { label: "Ready", value: "Ready" },
                 { label: "Booked", value: "Booked" },

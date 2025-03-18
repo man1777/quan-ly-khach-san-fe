@@ -1,5 +1,5 @@
 import { EditOutlined, SettingOutlined } from "@ant-design/icons";
-import { Button, Card, Result, Select, Skeleton } from "antd";
+import { Button, Card, Form, Input, Modal, Result, Select, Skeleton } from "antd";
 import "../../../styles/adminStylesPage/ManagementRoomsStyle.css";
 // import { formatCurrency } from "../../../utils/utils"
 import Search, { SearchProps } from "antd/es/input/Search";
@@ -10,8 +10,6 @@ const ManagementRooms = () => {
   const [dataRoomsFilter, setDataRoomsFilter] = useState<RoomData[]>([]);
 
   const [searchInput, setSearchInput] = useState("");
-
-  // const [optionsTinhTrang] = useState<string[]>(["Ready", "Booked"]);
 
   const [statusRoom, setStatusRoom] = useState<string>("All");
 
@@ -24,6 +22,8 @@ const ManagementRooms = () => {
   const [isShowModal, setIsShowModal] = useState<boolean>(false);
 
   const [dataRoomType, setDataRoomType] = useState<RoomType[]>([]);
+
+  const [isShowModalEdit, setIsShowModalEdit] = useState<boolean>(false)
 
   useEffect(() => {
     getDataRooms();
@@ -72,46 +72,10 @@ const ManagementRooms = () => {
     },
   ];
 
-  // const optionsGiaTien = [
-  //   {
-  //     label: "0 - 1.000.000 VNĐ",
-  //     value: 1,
-  //   },
-  //   {
-  //     label: "1.000.000 - 3.000.000 VNĐ",
-  //     value: 2,
-  //   },
-  //   {
-  //     label: "3.000.000 - 10.000.000 VNĐ",
-  //     value: 3,
-  //   },
-  //   {
-  //     label: "10.000.000 - 50.000.000 VNĐ",
-  //     value: 4,
-  //   },
-  // ];
-
-  // const renderStatus = (room: Room) => {
-  //   if (room.status === 1) return <Tag color="green" style={{ marginInlineEnd: '0px' }}>Còn trống</Tag>;
-  //   if (room.status === 2) return <Tag color="gold">Đã đặt phòng</Tag>;
-  //   if (room.status === 3) return <Tag color="magenta">Đã đặt trước</Tag>;
-  //   return <Tag color="red">Đang bảo trì</Tag>;
-  // }
-
   const classCenter = () => {
     const className = "flex justify-between items-center";
     return className;
   };
-
-  // const classStatusRoom = (status: string) => {
-  //   let className = "";
-  //   if (status == "Ready") {
-  //     className = "bg-green-300";
-  //   } else if (status == "Booked") {
-  //     className = "bg-red-400";
-  //   }
-  //   return className;
-  // };
 
   const onSearch: SearchProps["onSearch"] = (value) => {
     setDataRoom(
@@ -126,6 +90,19 @@ const ManagementRooms = () => {
   const onHandleChangeFloor = (value: number) => {
     setFloorRoom(value);
   };
+
+  const editItem = (item: any) => {
+    setIsShowModalEdit(true)
+    console.log('item', item)
+  }
+
+  const handleOkEdit = () => {
+    setIsShowModalEdit(false)
+  }
+
+  const handleCancelEdit = () => {
+    setIsShowModalEdit(false)
+  }
 
   const renderRoom = () => {
     if (isLoading) {
@@ -161,12 +138,11 @@ const ManagementRooms = () => {
                       />
                     }
                     style={{
-                      backgroundColor: `${
-                        room.status == "Ready" ? "#32cd32" : "#c7090969"
-                      }`,
+                      backgroundColor: `${room.status == "Ready" ? "#32cd32" : "#c7090969"
+                        }`,
                     }}
                     actions={[
-                      <EditOutlined key="edit" />,
+                      <EditOutlined key="edit" onClick={() => { editItem(room) }} />,
                       <SettingOutlined key="setting" />,
                     ]}
                   >
@@ -180,13 +156,6 @@ const ManagementRooms = () => {
                       <div className={classCenter()}>
                         <b>Trạng thái: </b> <span>{room.status}</span>
                       </div>
-                      {/* <div className={classCenter()}>
-                      <b>Giá phòng: </b> <span>{formatCurrency(room.price)}</span>
-                    </div>
-                    <div className={classCenter()}>
-                      <b>Tình trạng: </b> {renderStatus(room)}
-                    </div>
-                    <div>{room.description}</div> */}
                     </div>
                   </Card>
                 </div>
@@ -244,13 +213,6 @@ const ManagementRooms = () => {
               { value: "Booked", label: <span>Booked</span> },
             ]}
           ></Select>
-          {/* <Select
-            size="large"
-            placeholder="Giá phòng"
-            onChange={handleChange}
-            style={{ width: 250 }}
-            options={optionsGiaTien}
-          /> */}
         </div>
         <div className="w-100 flex gap-4">
           <Search
@@ -278,6 +240,58 @@ const ManagementRooms = () => {
         dataRoomType={dataRoomType}
         onSuccessful={() => getDataRooms()}
       ></ModalSaveRoom>
+      <Modal
+        title="Cập nhật phòng"
+        open={isShowModalEdit}
+        onOk={handleOkEdit}
+        onCancel={handleCancelEdit}
+      >
+        <Form
+          layout="vertical"
+        >
+          <Form.Item<ModalProps>
+            label="Room type"
+            name="RoomTypeId"
+            rules={[{ required: true, message: 'Please choose room type!' }]}
+          >
+            <Select options={dataRoomType.map((item) => {
+              return {
+                label: item.name,
+                value: item.id
+              }
+            })} />
+          </Form.Item>
+
+          <Form.Item<ModalProps>
+            label="Room Number"
+            name="RoomNumber"
+            rules={[{ required: true, message: "Please input Room Number!" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item<ModalProps>
+            label="Floor"
+            name="Floor"
+            rules={[{ required: true, message: "Please input Floor!" }]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item<ModalProps>
+            label="Status"
+            name="Status"
+            rules={[{ required: true, message: "Please choose Status!" }]}
+          >
+            <Select
+              defaultValue="Ready"
+              options={[
+                { label: "Ready", value: "Ready" },
+                { label: "Booked", value: "Booked" },
+              ]}
+            ></Select>
+          </Form.Item>
+        </Form>
+      </Modal>
     </>
   );
 };
@@ -310,5 +324,16 @@ interface RoomType {
   id: number;
   createdAt: string;
   updatedAt: string;
+}
+
+interface ModalProps {
+  HotelId: number;
+  RoomTypeId: number;
+  RoomNumber: string;
+  Floor: number;
+  Status: string;
+  Thumbnail: string;
+  Images: [];
+  KeptImages: []
 }
 export default ManagementRooms;
