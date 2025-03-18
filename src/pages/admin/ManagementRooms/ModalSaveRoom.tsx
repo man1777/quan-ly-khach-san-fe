@@ -68,7 +68,7 @@ const ModalSaveRoom = ({
   };
 
   const handleCancel = () => {
-    console.log("Clicked cancel button");
+    form.resetFields();
     setIsShowModal(false);
   };
   return (
@@ -80,7 +80,7 @@ const ModalSaveRoom = ({
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
       >
-        <Form name="formData" onFinish={handleOk} form={form}>
+        <Form name="formData" onFinish={handleOk} form={form} layout="vertical">
           <Form.Item<ModalProps>
             label="Room type"
             name="RoomTypeId"
