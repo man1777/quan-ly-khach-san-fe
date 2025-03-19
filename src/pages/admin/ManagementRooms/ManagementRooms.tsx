@@ -1,5 +1,15 @@
 import { EditOutlined, SettingOutlined } from "@ant-design/icons";
-import { Button, Card, Form, Input, Modal, Result, Select, Skeleton } from "antd";
+import {
+  Button,
+  Card,
+  Form,
+  Input,
+  message,
+  Modal,
+  Result,
+  Select,
+  Skeleton,
+} from "antd";
 import "../../../styles/adminStylesPage/ManagementRoomsStyle.css";
 // import { formatCurrency } from "../../../utils/utils"
 import Search, { SearchProps } from "antd/es/input/Search";
@@ -23,7 +33,11 @@ const ManagementRooms = () => {
 
   const [dataRoomType, setDataRoomType] = useState<RoomType[]>([]);
 
-  const [isShowModalEdit, setIsShowModalEdit] = useState<boolean>(false)
+  const [isShowModalEdit, setIsShowModalEdit] = useState<boolean>(false);
+
+  const [formData] = Form.useForm();
+
+  const [idRoom, setIdRoom] = useState<number>(-1);
 
   useEffect(() => {
     getDataRooms();
@@ -91,18 +105,62 @@ const ManagementRooms = () => {
     setFloorRoom(value);
   };
 
-  const editItem = (item: any) => {
-    setIsShowModalEdit(true)
-    console.log('item', item)
-  }
+  const editItem = (item: RoomData) => {
+    setIdRoom(item.id);
+    formData.setFieldsValue({
+      ...item,
+      RoomNumber: item.roomNumber,
+      Floor: item.floor,
+      Status: item.status,
+      RoomTypeId: null,
+    });
+
+    setIsShowModalEdit(true);
+  };
 
   const handleOkEdit = () => {
-    setIsShowModalEdit(false)
-  }
+    formData
+      .validateFields()
+      .then((res) => {
+        if (res) {
+          const data = formData.getFieldsValue();
+          console.log("data", data);
+          const formUpdate = new FormData();
+          formUpdate.append("HotelId", "0");
+          formUpdate.append("RoomTypeId", data.RoomTypeId);
+          formUpdate.append("RoomNumber", data.RoomNumber);
+          formUpdate.append("Floor", data.Floor);
+          formUpdate.append("Status", data.Status);
+          formUpdate.append("Thumbnail", "");
+          formUpdate.append("Images", "");
+          formUpdate.append("KeptImages", "");
+          axios
+            .put(
+              `https://hotelmanagementapi20250217124648.azurewebsites.net/api/Room/${idRoom}`,
+              formUpdate
+            )
+            .then((res) => {
+              if (res) {
+                formData.resetFields();
+                handleCancelEdit();
+                getDataRooms();
+                message.success("Cập nhật phòng thành công!");
+              }
+            })
+            .finally(() => {});
+        }
+      })
+      .catch(() => {});
+  };
+
+  const deleteItem = (item: RoomData) => {
+    console.log("item", item);
+  };
 
   const handleCancelEdit = () => {
-    setIsShowModalEdit(false)
-  }
+    setIsShowModalEdit(false);
+    setIdRoom(-1);
+  };
 
   const renderRoom = () => {
     if (isLoading) {
@@ -138,12 +196,23 @@ const ManagementRooms = () => {
                       />
                     }
                     style={{
-                      backgroundColor: `${room.status == "Ready" ? "#32cd32" : "#c7090969"
-                        }`,
+                      backgroundColor: `${
+                        room.status == "Ready" ? "#32cd32" : "#c7090969"
+                      }`,
                     }}
                     actions={[
-                      <EditOutlined key="edit" onClick={() => { editItem(room) }} />,
-                      <SettingOutlined key="setting" />,
+                      <EditOutlined
+                        key="edit"
+                        onClick={() => {
+                          editItem(room);
+                        }}
+                      />,
+                      <SettingOutlined
+                        key="setting"
+                        onClick={() => {
+                          deleteItem(room);
+                        }}
+                      />,
                     ]}
                   >
                     <div className={` "flex flex-col"`}>
@@ -246,20 +315,20 @@ const ManagementRooms = () => {
         onOk={handleOkEdit}
         onCancel={handleCancelEdit}
       >
-        <Form
-          layout="vertical"
-        >
+        <Form layout="vertical" form={formData}>
           <Form.Item<ModalProps>
             label="Room type"
             name="RoomTypeId"
-            rules={[{ required: true, message: 'Please choose room type!' }]}
+            rules={[{ required: true, message: "Please choose room type!" }]}
           >
-            <Select options={dataRoomType.map((item) => {
-              return {
-                label: item.name,
-                value: item.id
-              }
-            })} />
+            <Select
+              options={dataRoomType.map((item) => {
+                return {
+                  label: item.name,
+                  value: item.id,
+                };
+              })}
+            />
           </Form.Item>
 
           <Form.Item<ModalProps>
@@ -327,6 +396,7 @@ interface RoomType {
 }
 
 interface ModalProps {
+  Id: number;
   HotelId: number;
   RoomTypeId: number;
   RoomNumber: string;
@@ -334,6 +404,6 @@ interface ModalProps {
   Status: string;
   Thumbnail: string;
   Images: [];
-  KeptImages: []
+  KeptImages: [];
 }
 export default ManagementRooms;

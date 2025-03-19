@@ -74,7 +74,7 @@ const AdminLayout = () => {
 
   return (
     <div>
-      <div className="navbar flex justify-center items-center text-white gap-6">
+      <div className="navbaradmin flex justify-center items-center text-white gap-6">
         {listMenu}
       </div>
 
