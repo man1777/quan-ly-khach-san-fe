@@ -2,13 +2,16 @@ import { Outlet, useNavigate } from "react-router-dom";
 import "../styles/ClientStyles/HomePage.css";
 import { Button, DatePicker, InputNumber, Popover } from "antd";
 import logo from "../assets/client/HomePage/md_logo_L.avif";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
 
 const ClientLayout = () => {
   const { RangePicker } = DatePicker;
   const navigate = useNavigate();
-  const [bookingTime, setBookingTime] = useState<string[]>(["", ""]);
+  const [bookingTime, setBookingTime] = useState<[Dayjs | null, Dayjs | null]>([
+    null,
+    null,
+  ]);
   const [adult, setAdult] = useState(1);
   const [children, setChildren] = useState(0);
   const [room, setRoom] = useState(1);
@@ -38,7 +41,7 @@ const ClientLayout = () => {
       link: "/",
     },
   ];
-
+  const [refresh, setRefresh] = useState(0);
   const renderNavArr = () => {
     return navArr.map((item, index) => {
       return (
@@ -50,6 +53,12 @@ const ClientLayout = () => {
       );
     });
   };
+
+  useEffect(() => {
+    const st = dayjs(localStorage.getItem("st")) || null;
+    const et = dayjs(localStorage.getItem("et")) || null;
+    setBookingTime([st, et]);
+  }, []);
 
   return (
     <>
@@ -74,16 +83,14 @@ const ClientLayout = () => {
         >
           <div className="col-span-4  flex justify-center items-center">
             <div className="flex flex-col ">
-              <div className="mb-3 font-navbar ">DATES (1 NIGHT)</div>
+              <div className="mb-3 font-navbar ">DATES</div>
               <RangePicker
+                value={bookingTime}
                 format={"DD-MM-YYYY"}
                 onChange={(date, dateString) => {
-                  const arrDate = date?.map((item) => {
-                    return item?.format("DD-MM-YYYY");
-                  });
-                  setBookingTime(arrDate);
-                  console.log(dateString);
-                  console.log(bookingTime);
+                  localStorage.setItem("st", dateString[0]);
+                  localStorage.setItem("et", dateString[1]);
+                  setBookingTime(date ?? [null, null]);
                 }}
               />
             </div>
@@ -157,8 +164,13 @@ const ClientLayout = () => {
                   className="hover:scale-110 duration-400 "
                   onClick={() => {
                     navigate(
-                      `/booking?st=${bookingTime[0]}&et=${bookingTime[1]}&a=${adult}&c=${children}&r=${room}`
+                      `/booking?st=${bookingTime[0]?.format(
+                        "DD-MM-YYYY"
+                      )}&et=${bookingTime[1]?.format(
+                        "DD-MM-YYYY"
+                      )}&a=${adult}&c=${children}&r=${room}`
                     );
+                    setRefresh((prev) => prev + 1);
                   }}
                 >
                   VIEW RATE
@@ -170,7 +182,7 @@ const ClientLayout = () => {
         {/* navbar end */}
 
         <div style={{ minHeight: "700px" }}>
-          <Outlet />
+          <Outlet key={refresh} />
         </div>
 
         <div className="footer flex justify-center py-10">
