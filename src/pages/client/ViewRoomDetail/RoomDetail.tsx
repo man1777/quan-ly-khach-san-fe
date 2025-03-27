@@ -1,7 +1,7 @@
 const RoomDetail = () => {
   return (
     <>
-      <span>Roomdetaileeeeeee</span>
+      <span>Roomdetaileeeeeeed</span>
     </>
   );
 };
