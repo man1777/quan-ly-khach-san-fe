@@ -55,9 +55,12 @@ const ClientLayout = () => {
   };
 
   useEffect(() => {
-    const st = dayjs(localStorage.getItem("st")) || null;
-    const et = dayjs(localStorage.getItem("et")) || null;
-    setBookingTime([st, et]);
+    if (localStorage.getItem("st") && localStorage.getItem("st")) {
+      const st = localStorage.getItem("st") ? dayjs(localStorage.getItem("st")).format('DD-MM-YYYY') : null;
+      const et = localStorage.getItem("et") ? dayjs(localStorage.getItem("et")).format('DD-MM-YYYY') : null;
+      setBookingTime([dayjs(st), dayjs(et)]);
+    }
+
   }, []);
 
   return (
@@ -85,12 +88,10 @@ const ClientLayout = () => {
             <div className="flex flex-col ">
               <div className="mb-3 font-navbar ">DATES</div>
               <RangePicker
-                value={bookingTime}
+                value={bookingTime || undefined}
                 format={"DD-MM-YYYY"}
-                onChange={(date, dateString) => {
-                  localStorage.setItem("st", dateString[0]);
-                  localStorage.setItem("et", dateString[1]);
-                  setBookingTime(date ?? [null, null]);
+                onChange={(date) => {
+                  setBookingTime(date || [null, null]);
                 }}
               />
             </div>
@@ -170,6 +171,12 @@ const ClientLayout = () => {
                         "DD-MM-YYYY"
                       )}&a=${adult}&c=${children}&r=${room}`
                     );
+                    localStorage.setItem("st", bookingTime[0] ? bookingTime[0].format(
+                      "DD-MM-YYYY"
+                    ):'');
+                    localStorage.setItem("et",bookingTime[1] ? bookingTime[1].format(
+                      "DD-MM-YYYY"
+                    ):'');
                     setRefresh((prev) => prev + 1);
                   }}
                 >
