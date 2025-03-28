@@ -56,11 +56,10 @@ const ClientLayout = () => {
 
   useEffect(() => {
     if (localStorage.getItem("st") && localStorage.getItem("st")) {
-      const st = localStorage.getItem("st") ? dayjs(localStorage.getItem("st")).format('DD-MM-YYYY') : null;
-      const et = localStorage.getItem("et") ? dayjs(localStorage.getItem("et")).format('DD-MM-YYYY') : null;
-      setBookingTime([dayjs(st), dayjs(et)]);
+      const st = dayjs(localStorage.getItem("st"));
+      const et = dayjs(localStorage.getItem("et"));
+      setBookingTime([st, et]);
     }
-
   }, []);
 
   return (
@@ -171,12 +170,14 @@ const ClientLayout = () => {
                         "DD-MM-YYYY"
                       )}&a=${adult}&c=${children}&r=${room}`
                     );
-                    localStorage.setItem("st", bookingTime[0] ? bookingTime[0].format(
-                      "DD-MM-YYYY"
-                    ):'');
-                    localStorage.setItem("et",bookingTime[1] ? bookingTime[1].format(
-                      "DD-MM-YYYY"
-                    ):'');
+                    localStorage.setItem(
+                      "st",
+                      bookingTime[0] ? bookingTime[0].format("DD-MM-YYYY") : ""
+                    );
+                    localStorage.setItem(
+                      "et",
+                      bookingTime[1] ? bookingTime[1].format("DD-MM-YYYY") : ""
+                    );
                     setRefresh((prev) => prev + 1);
                   }}
                 >

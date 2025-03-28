@@ -82,7 +82,7 @@ const BookingTypeRoom = function () {
                   </div>
                   <div className="mt-1 font-bold text-gray-700">
                     <a
-                      href={`/room-detail/${item.id}?s=${startDate}&e=${endDate}&a=${a}&c=${c}&r=${r}`}
+                      href={`/room-detail/?Trid=${item.id}&s=${startDate}&e=${endDate}&a=${a}&c=${c}&r=${r}`}
                       className="hover:underline"
                     >
                       {item.name}
