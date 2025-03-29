@@ -2,8 +2,6 @@ import { createBrowserRouter } from "react-router-dom";
 import { AdminLayout, ClientLayout, AuthLayout } from "./layout";
 import { admin, client, auth } from "./pages";
 import GalleryPage from "./pages/client/Gallery/GalleryPage";
-import BookingTypeRoom from "./pages/client/ViewBookingTypeRoom/BookingTypeRoom";
-import RoomDetail from "./pages/client/ViewRoomDetail/RoomDetail";
 
 const { DashboardPage, ManagementRooms } = admin;
 const { HomePage } = client;
@@ -26,6 +24,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <ManagementRooms /> },
       { path: "/admin/dashboard", element: <DashboardPage /> },
+      { path: "/admin/QLKH", element: <QLKH /> },
     ],
   },
   {
