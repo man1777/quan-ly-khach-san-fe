@@ -128,11 +128,11 @@ function QLKH() {
     setEditingUser(Item)
     form.setFieldsValue({
         id: Item.id,
-        Email: Item.email, 
-        FirstName: Item.FirstName, 
-        LastName: Item.LastName,
-        Password: Item.Password,
-        PhoneNumber: Item.phoneNumber
+        email: Item.email, 
+        firstName: Item.firstName, 
+        lastName: Item.lastName,
+        password: Item.password,
+        phoneNumber: Item.phoneNumber
       });
     setShowModalEdit(true)
     console.log(Item);
@@ -141,11 +141,11 @@ function QLKH() {
   const editUser = () => {
     const data = form?.getFieldsValue();
     userForm.append('id', data.id);
-    userForm.append('Email', data.Email);
-    userForm.append('PhoneNumber', data.PhoneNumber);
-    userForm.append('Password', data.Password);
-    userForm.append('FirstName', data.FirstName);
-    userForm.append('LastName', data.LastName);
+    userForm.append('Email', data.email);
+    userForm.append('PhoneNumber', data.phoneNumber);
+    userForm.append('Password', data.password);
+    userForm.append('FirstName', data.firstName);
+    userForm.append('LastName', data.lastName);
     userForm.append('EmailVerified', '');
     userForm.append('Avatar', '');
     userForm.append('RefreshToken', '');
@@ -183,7 +183,7 @@ function QLKH() {
         </Form.Item>
         <Form.Item<NewUser>
           label="Họ"
-          name="FirstName"
+          name="firstName"
           rules={[{ required: true, message: "Please input Floor!" }]}
         >
           <Input />
@@ -191,21 +191,21 @@ function QLKH() {
 
         <Form.Item<NewUser>
           label="Tên"
-          name="LastName"
+          name="lastName"
           rules={[{ required: true, message: "Please choose Status!" }]}
         >
           <Input />
         </Form.Item>
         <Form.Item<NewUser>
           label="Mật Khẩu"
-          name="Password"
+          name="password"
           rules={[{ required: true, message: "Please choose Status!" }]}
         >
           <Input />
         </Form.Item>
         <Form.Item<NewUser>
           label="SĐT"
-          name="PhoneNumber"
+          name="phoneNumber"
           rules={[{ required: true, message: "Please choose Status!" }]}
         >
           <Input />
@@ -219,14 +219,14 @@ function QLKH() {
 
         <Form.Item<NewUser>
           label="Email"
-          name="Email"
+          name="email"
           rules={[{ required: true, message: "Please input Room Number!" }]}
         >
           <Input />
         </Form.Item>
         <Form.Item<NewUser>
           label="Họ"
-          name="FirstName"
+          name="firstName"
           rules={[{ required: true, message: "Please input Floor!" }]}
         >
           <Input />
@@ -234,14 +234,7 @@ function QLKH() {
 
         <Form.Item<NewUser>
           label="Tên"
-          name="LastName"
-          rules={[{ required: true, message: "Please choose Status!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item<NewUser>
-          label="Mật Khẩu"
-          name="Password"
+          name="lastName"
           rules={[{ required: true, message: "Please choose Status!" }]}
         >
           <Input />
@@ -259,31 +252,31 @@ function QLKH() {
 }
 interface NewUser {
   email: string;
-  PhoneNumber: string;
-  Password: string;
-  FirstName: string;
-  LastName: string;
-  EmailVerified: boolean;
-  Avatar: string;
-  RefreshToken: string;
-  IsDisabled: boolean;
-  LastLogin: string;
-  HotelId: number
+  phoneNumber: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  emailVerified: boolean;
+  avatar: string;
+  refreshToken: string;
+  isDisabled: boolean;
+  lastLogin: string;
+  hotelId: number
 
 }
 interface EditUser {
     id: number;
-    Email: string;
+    email: string;
     phoneNumber: string;
-    Password: string;
-    FirstName: string;
-    LastName: string;
-    EmailVerified: boolean;
-    Avatar: string;
-    RefreshToken: string;
-    IsDisabled: boolean;
-    LastLogin: string;
-    HotelId: number
+    password: string;
+    firstName: string;
+    lastName: string;
+    emailVerified: boolean;
+    avatar: string;
+    refreshToken: string;
+    isDisabled: boolean;
+    lastLogin: string;
+    hotelId: number
   
   }
 export default QLKH;
