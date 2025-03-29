@@ -128,11 +128,11 @@ function QLKH() {
     setEditingUser(Item)
     form.setFieldsValue({
         id: Item.id,
-        Email: Item.Email, 
+        Email: Item.email, 
         FirstName: Item.FirstName, 
         LastName: Item.LastName,
         Password: Item.Password,
-        PhoneNumber: Item.PhoneNumber
+        PhoneNumber: Item.phoneNumber
       });
     setShowModalEdit(true)
     console.log(Item);
@@ -176,7 +176,7 @@ function QLKH() {
 
         <Form.Item<NewUser>
           label="Email"
-          name="Email"
+          name="email"
           rules={[{ required: true, message: "Please input Room Number!" }]}
         >
           <Input />
@@ -248,7 +248,7 @@ function QLKH() {
         </Form.Item>
         <Form.Item<NewUser>
           label="SĐT"
-          name="PhoneNumber"
+          name="phoneNumber"
           rules={[{ required: true, message: "Please choose Status!" }]}
         >
           <Input />
@@ -258,7 +258,7 @@ function QLKH() {
   </>
 }
 interface NewUser {
-  Email: string;
+  email: string;
   PhoneNumber: string;
   Password: string;
   FirstName: string;
@@ -274,7 +274,7 @@ interface NewUser {
 interface EditUser {
     id: number;
     Email: string;
-    PhoneNumber: string;
+    phoneNumber: string;
     Password: string;
     FirstName: string;
     LastName: string;
