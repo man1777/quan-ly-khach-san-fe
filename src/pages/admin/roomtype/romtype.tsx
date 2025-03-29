@@ -124,16 +124,6 @@ function QLLP() {
       key: 'age',
     },
     {
-      title: 'Ảnh Bìa',
-      dataIndex: 'thumbnail',
-      key: 'age',
-    },
-    {
-      title: 'Ảnh Phòng',
-      dataIndex: 'Images',
-      key: 'age',
-    },
-    {
       title: 'Action',
       key: 'action',
       render: (_: any, Item: any) => (
