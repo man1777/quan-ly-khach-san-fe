@@ -39,6 +39,8 @@ const LoginPage: FC = () => {
       .post(signInApi, params)
       .then((res) => {
         if (res.status === 200) {
+          localStorage.setItem("tk", res.data.token.accessToken);
+          localStorage.setItem("role", res.data.user.roles[0].name);
           setTimeout(() => {
             notiSuccess();
           }, 200);

@@ -126,6 +126,7 @@ const ManagementRooms = () => {
           const data = formData.getFieldsValue();
           console.log("data", data);
           const formUpdate = new FormData();
+          formUpdate.append("id", data.id);
           formUpdate.append("HotelId", "0");
           formUpdate.append("RoomTypeId", data.RoomTypeId);
           formUpdate.append("RoomNumber", data.RoomNumber);
