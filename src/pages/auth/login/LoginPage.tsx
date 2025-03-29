@@ -44,7 +44,7 @@ const LoginPage: FC = () => {
           }, 200);
           localStorage.setItem("tk", res.data.token.accessToken);
           localStorage.setItem("role", res.data.user.roles[0].name);
-          navigate("/");
+          // navigate("/");
           return;
         }
       })
