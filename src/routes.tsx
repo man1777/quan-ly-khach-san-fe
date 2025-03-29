@@ -2,6 +2,9 @@ import { createBrowserRouter } from "react-router-dom";
 import { AdminLayout, ClientLayout, AuthLayout } from "./layout";
 import { admin, client, auth } from "./pages";
 import GalleryPage from "./pages/client/Gallery/GalleryPage";
+import BookingTypeRoom from "./pages/client/ViewBookingTypeRoom/BookingTypeRoom";
+import RoomDetail from "./pages/client/ViewRoomDetail/RoomDetail";
+import QLKH from "./pages/admin/QLKH/QLKH";
 
 const { DashboardPage, ManagementRooms } = admin;
 const { HomePage } = client;
