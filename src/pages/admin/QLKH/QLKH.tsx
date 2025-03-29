@@ -1,8 +1,6 @@
-import { Button, Form, Input, Modal, Select, Space, Table } from "antd";
-import Item from "antd/es/list/Item";
+import { Button, Form, Input, Modal,  Space, Table } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useForm } from "antd/es/form/Form";
 
 function QLKH() {
   const [DSUser, setDSUser] = useState([]);
@@ -115,7 +113,11 @@ function QLKH() {
   ];
   const deleteItem = (Item: EditUser) => {
     console.log(Item);
-    axios.delete(`https://hotelmanagementapi20250217124648.azurewebsites.net/api/User/${Item.id}`).then(res => {
+    axios.delete(`https://hotelmanagementapi20250217124648.azurewebsites.net/api/User/${Item.id}`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('tk')}`
+      }
+    }).then(res => {
       loadUser();
     })
     
@@ -152,7 +154,11 @@ function QLKH() {
     userForm.append('HotelId', '1');
     console.log("Dữ liệu gửi:", data);
     if (editingUser) {
-      axios.put(`https://hotelmanagementapi20250217124648.azurewebsites.net/api/User/${editingUser.id}`,userForm)
+      axios.put(`https://hotelmanagementapi20250217124648.azurewebsites.net/api/User/${editingUser.id}`,userForm,{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('tk')}`
+        }
+      })
         .then(res => {
           console.log("Cập nhật thành công", res.data);
           loadUser();
