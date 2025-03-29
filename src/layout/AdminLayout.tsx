@@ -9,7 +9,7 @@ const AdminLayout = () => {
     clicked: boolean;
   }
   const navigate = useNavigate();
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [isAdmin, setIsAdmin] = useState<boolean>(true);
   const [menuItems, setMenuItems] = useState<menuItems[]>([
     {
       title: "Quản lý phòng",
@@ -74,14 +74,14 @@ const AdminLayout = () => {
   });
 
   useEffect(() => {
-    const token = localStorage.getItem("tk") || "";
-    const role = localStorage.getItem("role") || "";
-    if (token.length > 0 && role == "admin") {
-      setIsAdmin(true);
-    } else {
-      navigate("/auth");
-      setIsAdmin(false);
-    }
+    // const token = localStorage.getItem("tk") || "";
+    // const role = localStorage.getItem("role") || "";
+    // if (token.length > 0 && role == "admin") {
+    //   setIsAdmin(true);
+    // } else {
+    //   navigate("/auth");
+    //   setIsAdmin(false);
+    // }
   });
   const App = () => {
     if (isAdmin) {
