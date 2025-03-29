@@ -66,6 +66,7 @@ function QLLP() {
   };
   const handleCancell = () => {
     setShowModalEdit(false);
+    form.resetFields();
   };
   const showModal = () => {
     SetshowModalOpen(true)
@@ -161,10 +162,10 @@ function QLLP() {
     form.setFieldsValue({
         id: Item.id,
         name: Item.name, 
-        Descriptions: Item.description, 
+        description: Item.description, 
         pricePerNight: Item.pricePerNight,
         numberOfBeds: Item.numberOfBeds,
-        numberofBathrooms: Item.numberOfBathrooms,
+        numberOfBathrooms: Item.numberOfBathrooms,
         singleBed: Item.singleBed,
         doubleBed: Item.doubleBed,
         capacity: Item.capacity,
@@ -203,11 +204,12 @@ function QLLP() {
     QLLPForm.append('Images', data.Images
     )
     if (editingUser) {
-      axios.put(`https://hotelmanagementapi20250217124648.azurewebsites.net/api/User/${editingUser.id}`,QLLPForm)
+      axios.put(`https://hotelmanagementapi20250217124648.azurewebsites.net/api/RoomType/${editingUser.id}`,QLLPForm)
         .then(res => {
           console.log("Cập nhật thành công", res.data);
           loadUser();
           setShowModalEdit(false);
+          form.resetFields();
         });
     } 
   };
