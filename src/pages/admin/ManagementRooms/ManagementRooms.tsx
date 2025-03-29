@@ -1,4 +1,4 @@
-import { EditOutlined, SettingOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import {
   Button,
   Card,
@@ -16,6 +16,7 @@ import Search, { SearchProps } from "antd/es/input/Search";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ModalSaveRoom from "./ModalSaveRoom";
+import { ModalConfirm } from "../../../utils/utils";
 const ManagementRooms = () => {
   const [dataRoomsFilter, setDataRoomsFilter] = useState<RoomData[]>([]);
 
@@ -155,7 +156,28 @@ const ManagementRooms = () => {
   };
 
   const deleteItem = (item: RoomData) => {
+    console.log("item1", item);
+    ModalConfirm({
+      onClose: () => {},
+      onConfirm: () => onConfirmDelete(item),
+      content: `Bạn có chắc chắn muốn xóa phòng ${item.roomNumber}?`,
+    });
+  };
+  const onConfirmDelete = (item: RoomData) => {
     console.log("item", item);
+    axios
+      .delete(
+        `https://hotelmanagementapi20250217124648.azurewebsites.net/api/Room/${item.id}`
+      )
+      .then((res) => {
+        if (res) {
+          getDataRooms();
+          message.success(`Xóa phòng thành công!`);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleCancelEdit = () => {
@@ -208,7 +230,7 @@ const ManagementRooms = () => {
                           editItem(room);
                         }}
                       />,
-                      <SettingOutlined
+                      <DeleteOutlined
                         key="setting"
                         onClick={() => {
                           deleteItem(room);
@@ -302,6 +324,7 @@ const ManagementRooms = () => {
           </Button>
         </div>
       </div>
+
       {/* Render các phòng */}
       {renderRoom()}
       <ModalSaveRoom

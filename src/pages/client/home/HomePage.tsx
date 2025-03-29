@@ -1,16 +1,9 @@
-import { Carousel } from "antd";
 import "../../../styles/ClientStyles/Index.css";
 import img1 from "../../../assets/client/HomePage/caseroul/and1-csl.jpg";
 import img2 from "../../../assets/client/HomePage/caseroul/anh2-csl.jpg";
 import img3 from "../../../assets/client/HomePage/caseroul/anh3-csl.jpg";
+import { Carousel } from "antd";
 const HomePage = () => {
-  // const contentStyle: React.CSSProperties = {
-  //   height: "360px",
-  //   color: "#fff",
-  //   lineHeight: "160px",
-  //   textAlign: "center",
-  // };
-
   return (
     <div>
       <Carousel
@@ -29,6 +22,7 @@ const HomePage = () => {
           <img src={img3} alt="" />
         </div>
       </Carousel>
+
       {/* WELCOME */}
       <div className="sec1 flex justify-center pt-10 pb-20">
         <div

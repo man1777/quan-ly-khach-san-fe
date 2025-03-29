@@ -1,14 +1,15 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import "../styles/AdminLayout.css";
 import { Space } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const AdminLayout = () => {
   interface menuItems {
     title: string;
     key: number;
     clicked: boolean;
   }
-
+  const navigate = useNavigate();
+  const [isAdmin, setIsAdmin] = useState<boolean>(true);
   const [menuItems, setMenuItems] = useState<menuItems[]>([
     {
       title: "Quản lý phòng",
@@ -72,16 +73,33 @@ const AdminLayout = () => {
     );
   });
 
-  return (
-    <div>
-      <div className="navbaradmin flex justify-center items-center text-white gap-6">
-        {listMenu}
-      </div>
+  useEffect(() => {
+    // const token = localStorage.getItem("tk") || "";
+    // const role = localStorage.getItem("role") || "";
+    // if (token.length > 0 && role == "admin") {
+    //   setIsAdmin(true);
+    // } else {
+    //   navigate("/auth");
+    //   setIsAdmin(false);
+    // }
+  });
+  const App = () => {
+    if (isAdmin) {
+      return (
+        <>
+          <div className="navbaradmin flex justify-center items-center text-white gap-6">
+            {listMenu}
+          </div>
+          <div className="p-5">
+            <Outlet />
+          </div>
+        </>
+      );
+    } else {
+      return null;
+    }
+  };
 
-      <div className="p-5">
-        <Outlet />
-      </div>
-    </div>
-  );
+  return <div>{App()}</div>;
 };
 export default AdminLayout;
