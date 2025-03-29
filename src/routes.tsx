@@ -5,6 +5,7 @@ import GalleryPage from "./pages/client/Gallery/GalleryPage";
 import BookingTypeRoom from "./pages/client/ViewBookingTypeRoom/BookingTypeRoom";
 import RoomDetail from "./pages/client/ViewRoomDetail/RoomDetail";
 import QLKH from "./pages/admin/QLKH/QLKH";
+import QLLP from "./pages/admin/roomtype/romtype";
 
 const { DashboardPage, ManagementRooms } = admin;
 const { HomePage } = client;
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
       { index: true, element: <ManagementRooms /> },
       { path: "/admin/dashboard", element: <DashboardPage /> },
       { path: "/admin/QLKH", element: <QLKH /> },
+      { path: "/admin/QLLP", element: <QLLP /> },
     ],
   },
   {
