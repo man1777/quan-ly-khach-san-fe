@@ -69,6 +69,7 @@ const ClientLayout = () => {
 
   const onHandleSignout = () => {
     localStorage.clear()
+    sessionStorage.clear()
     navigate('/auth')
   }
 
