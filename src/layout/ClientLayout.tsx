@@ -1,9 +1,10 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import "../styles/ClientStyles/HomePage.css";
-import { Button, DatePicker, InputNumber, Popover } from "antd";
+import { Avatar, Button, DatePicker, Dropdown, InputNumber, MenuProps, Popover } from "antd";
 import logo from "../assets/client/HomePage/md_logo_L.avif";
 import { useEffect, useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
+import { UserOutlined } from "@ant-design/icons";
 
 const ClientLayout = () => {
   const { RangePicker } = DatePicker;
@@ -15,6 +16,8 @@ const ClientLayout = () => {
   const [adult, setAdult] = useState(1);
   const [children, setChildren] = useState(0);
   const [room, setRoom] = useState(1);
+  const avatar = localStorage.getItem('avatar') ?? null
+  const hoVaTen = localStorage.getItem('HoVaTen') ?? ''
   const navArr = [
     {
       title: "Home",
@@ -42,6 +45,16 @@ const ClientLayout = () => {
     },
   ];
   const [refresh, setRefresh] = useState(0);
+
+  const [itemsDrop, setItemsDrop] = useState<MenuProps['items']>([])
+
+  // const itemsDrop: MenuProps['items'] = [
+  //   { key: '1', label: 'Tài khoản' },
+  //   { key: '3', label: 'Quản lý' },
+  //   { key: '2', label: 'Đăng xuất' },
+    
+  // ];
+
   const renderNavArr = () => {
     return navArr.map((item, index) => {
       return (
@@ -54,11 +67,46 @@ const ClientLayout = () => {
     });
   };
 
+  const onHandleSignout = () => {
+    localStorage.clear()
+    navigate('/auth')
+  }
+
+  const onHandleManagement = () => {
+    navigate('/admin')
+  }
+
+  const onHandleSignin = () => {
+    navigate('/auth')
+  }
+
   useEffect(() => {
-    if (localStorage.getItem("st") && localStorage.getItem("st")) {
-      const st = dayjs(localStorage.getItem("st"));
-      const et = dayjs(localStorage.getItem("et"));
+    if (sessionStorage.getItem("st") && sessionStorage.getItem("st")) {
+      const st = dayjs(sessionStorage.getItem("st"));
+      const et = dayjs(sessionStorage.getItem("et"));
       setBookingTime([st, et]);
+      if(avatar){
+        const drop =  [
+          { key: '1', label: 'Tài khoản' },
+          { key: '3', label: (<a  onClick={onHandleManagement} >
+            Quản lý
+            </a>) },
+          { key: '2', label: (<a  onClick={onHandleSignout} >
+          Đăng xuất
+          </a>) },
+          
+        ];
+        setItemsDrop(drop)
+      }else{
+        const drop =  [
+          { key: '2', label: (<a  onClick={onHandleSignin} >
+            Đăng nhập
+            </a>) },
+        ];
+        setItemsDrop(drop)
+      }
+     
+      
     }
   }, []);
 
@@ -67,13 +115,24 @@ const ClientLayout = () => {
       <div className="relative">
         {/* navbar begin */}
         <div
-          className="navbar flex justify-between p-5 align-center"
+          className="navbar flex justify-between p-5 items-center"
           style={{ borderBottom: "1px solid #f4f4f4" }}
         >
           <div>
             <img src={logo} style={{ maxHeight: "60px" }}></img>
           </div>
           <div className="flex gap-5 items-center">{renderNavArr()}</div>
+          <Dropdown menu={{ items: itemsDrop }} >
+            <div className=" flex gap-2 items-center">
+              {
+                avatar != null && avatar.length > 0 ? (<Avatar size={"large"} src={<img src={`https://hotelmanagementapi20250217124648.azurewebsites.net/${avatar}`} alt="avatar" />} style={{ backgroundColor: '#fde3cf', color: '#f56a00' }}>U</Avatar>) : <Avatar icon={<UserOutlined />} />
+              }
+              <span className="font-bold">{hoVaTen != '' ? hoVaTen : 'Chưa đăng nhập'}</span>
+            </div>
+          </Dropdown>
+
+
+
         </div>
         <div
           className="order-navbar grid grid-cols-12 divide-x-1 divide-dashed sticky top-0"
@@ -170,11 +229,11 @@ const ClientLayout = () => {
                         "DD-MM-YYYY"
                       )}&a=${adult}&c=${children}&r=${room}`
                     );
-                    localStorage.setItem(
+                    sessionStorage.setItem(
                       "st",
                       bookingTime[0] ? bookingTime[0].format("DD-MM-YYYY") : ""
                     );
-                    localStorage.setItem(
+                    sessionStorage.setItem(
                       "et",
                       bookingTime[1] ? bookingTime[1].format("DD-MM-YYYY") : ""
                     );
@@ -189,7 +248,7 @@ const ClientLayout = () => {
         </div>
         {/* navbar end */}
 
-        <div style={{ minHeight: "700px" }}>
+        <div className="h-fit py-10" >
           <Outlet key={refresh} />
         </div>
 

@@ -280,7 +280,7 @@ const ManagementRooms = () => {
   return (
     <>
       <div>
-        <h1>ManagementRooms</h1>
+        <h1>Quản lý phòng</h1>
       </div>
       {/* Thanh filter */}
       <div className="my-5 flex gap-4 justify-between ring-2 ring-blue-500/50 p-5 rounded-md mb-10">

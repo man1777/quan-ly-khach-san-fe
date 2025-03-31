@@ -41,6 +41,9 @@ const LoginPage: FC = () => {
         if (res.status === 200) {
           localStorage.setItem("tk", res.data.token.accessToken);
           localStorage.setItem("role", res.data.user.roles[0].name);
+          localStorage.setItem("userID", res.data.user.id);
+          localStorage.setItem("HoVaTen", res.data.user.firstName +" " + res.data.user.lastName);
+          localStorage.setItem("avatar", res.data.user.avatar);
           setTimeout(() => {
             notiSuccess();
           }, 200);

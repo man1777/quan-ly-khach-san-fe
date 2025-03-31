@@ -1,6 +1,6 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import "../styles/AdminLayout.css";
-import { Space } from "antd";
+import { message, Space } from "antd";
 import { useEffect, useState } from "react";
 const AdminLayout = () => {
   interface menuItems {
@@ -9,7 +9,7 @@ const AdminLayout = () => {
     clicked: boolean;
   }
   const navigate = useNavigate();
-  const [isAdmin, setIsAdmin] = useState<boolean>(true);
+  const [isAdmin] = useState<boolean>(true);
   const [menuItems, setMenuItems] = useState<menuItems[]>([
     {
       title: "Quản lý phòng",
@@ -36,20 +36,65 @@ const AdminLayout = () => {
       key: 5,
       clicked: false,
     },
+    {
+      title: "Quản lý loại phòng",
+      key: 6,
+      clicked: false,
+    },
   ]);
 
   const onClickMenu = (item: menuItems) => {
-    setMenuItems((prev) => {
-      prev.map((menu) => {
-        if (menu.key === item.key) {
-          menu.clicked = true;
-        } else {
-          menu.clicked = false;
-        }
-      });
-      return [...prev];
-    });
-    console.log("item", item);
+   
+    switch (item.key) {
+      case 1:
+        setMenuItems((prev) => {
+          prev.map((menu) => {
+            if (menu.key === item.key) {
+              menu.clicked = true;
+            } else {
+              menu.clicked = false;
+            }
+          });
+          return [...prev];
+        });
+        navigate('/admin')
+        break;
+        case 2:
+          message.warning('Tính năng đang phát triển')
+          break;
+      case 3:
+        setMenuItems((prev) => {
+          prev.map((menu) => {
+            if (menu.key === item.key) {
+              menu.clicked = true;
+            } else {
+              menu.clicked = false;
+            }
+          });
+          return [...prev];
+        });
+        navigate('/admin/QLKH')
+        break;
+        case 4:
+          message.warning('Tính năng đang phát triển')
+          break;
+          case 5:
+            message.warning('Tính năng đang phát triển')
+            break;
+      case 6:
+        setMenuItems((prev) => {
+          prev.map((menu) => {
+            if (menu.key === item.key) {
+              menu.clicked = true;
+            } else {
+              menu.clicked = false;
+            }
+          });
+          return [...prev];
+        });
+        navigate('/admin/QLLP')
+        break;
+    }
   };
 
   const renderClass = (isClicked: boolean) => {
